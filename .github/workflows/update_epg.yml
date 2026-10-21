@@ -1,0 +1,29 @@
+name: Auto Update EPG
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs automatically once every 24 hours at midnight UTC
+  workflow_dispatch: # Allows manual triggers from the GitHub Actions tab
+
+jobs:
+  build-epg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run Generator Script
+        run: python epg_generator.py
+
+      - name: Commit and Push Updated EPG File
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.io"
+          git add epg.xml
+          git commit -m "Automated EPG refresh" || exit 0
+          git push
