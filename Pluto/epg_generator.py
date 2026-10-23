@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from datetime import datetime, timezone
+from datetime import datetime
 import json
 import urllib.request
 import xml.etree.ElementTree as ET
 
 
 def fetch_pluto_guide():
-  url = "https://api.pluto.tv/v2/channels"
+  url = "https://api.pluto.tv/v2/channels.json"
   req = urllib.request.Request(
       url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
   )
@@ -32,7 +32,6 @@ def generate_pluto_xmltv():
     chan_name = channel.get("name", "Unknown Channel")
     logo_path = channel.get("colorLogoPNG", {}).get("path", "")
 
-    # Create channel element
     channel_elem = ET.SubElement(root, "channel", id=chan_id)
     display_name = ET.SubElement(channel_elem, "display-name")
     display_name.text = chan_name
@@ -41,7 +40,6 @@ def generate_pluto_xmltv():
       icon_elem = ET.SubElement(channel_elem, "icon")
       icon_elem.set("src", logo_path)
 
-    # Process actual show timelines from Pluto API
     timelines = channel.get("timelines", [])
     for slot in timelines:
       title = slot.get("title", "Live Broadcast")
