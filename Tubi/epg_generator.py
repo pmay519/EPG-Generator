@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 
 # Replace with your actual M3U playlist URL or local file path
-M3U_URL = "YOUR_M3U_PLAYLIST_URL_HERE"
+M3U_URL = "tubi_all.m3u"
 OUTPUT_XML = "epg.xml"
 
 
