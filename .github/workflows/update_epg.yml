@@ -40,6 +40,13 @@ jobs:
           cd Tubi
           python epg_generator.py
 
+       - name: Run masterlist Generator
+        run: |
+          cd masterlist
+          python epg_generator.py   
+
+          
+
       - name: Commit and Push Updated EPG Files
         run: |
           git config --global user.name "github-actions[bot]"
